@@ -15,7 +15,7 @@ if not old_df.empty:
 
     rank_changes = []
     for team_id, row in new_df.iterrows():
-        if len(rank_changes) > limit:
+        if len(rank_changes) >= limit:
             break
 
         if team_id in old_df.index:
