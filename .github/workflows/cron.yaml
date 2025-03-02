@@ -42,13 +42,8 @@ jobs:
       - name: Compare with previous leaderboard
         run: |
           if [ -f leaderboard.csv ]; then
-            export RANK_CHANGES=$(python ./src/compare_leaderboard.py leaderboard.csv new_leaderboard.csv)
-          else
-            export RANK_CHANGES=""
+            python ./src/compare_leaderboard.py leaderboard.csv new_leaderboard.csv > rank_changes.txt 2>&1
           fi
-          echo "RANK_CHANGES<<EOF" >> $GITHUB_ENV
-          echo "$RANK_CHANGES" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
       - name: Update leaderboard file
         run: |
           mv new_leaderboard.csv leaderboard.csv
@@ -58,10 +53,11 @@ jobs:
           git commit -m "Update leaderboard data" || echo "No changes to commit"
           git push || echo "No changes to push"
       - name: Notify via GitHub Issue
-        if: env.RANK_CHANGES != ''
         run: |
-          ISSUE_NUMBER=$(gh issue list --state open --search "$ISSUE_TITLE" --limit --json number --jq '.[0].number')
-          if [ -z "$ISSUE_NUMBER" ]; then
-            gh issue create --title "$ISSUE_TITLE" --body ""
+          if [ -s rank_changes.txt ]; then
+            ISSUE_NUMBER=$(gh issue list --state open --search "$ISSUE_TITLE" --limit --json number --jq '.[0].number')
+            if [ -z "$ISSUE_NUMBER" ]; then
+              gh issue create --title "$ISSUE_TITLE" --body ""
+            fi
+            gh issue comment $ISSUE_NUMBER -F rank_changes.txt
           fi
-          gh issue comment $ISSUE_NUMBER --body "$RANK_CHANGES"

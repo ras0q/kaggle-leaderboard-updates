@@ -17,9 +17,7 @@ if not old_df.empty:
             old_rank = old_df.index.get_loc(team_id) + 1
             new_rank = new_df.index.get_loc(team_id) + 1
             if new_rank < old_rank:
-                rank_changes.append(
-                    f"🏆 {row['teamName']} improved from {old_rank} to {new_rank}!"
-                )
+                rank_changes.append(f"🏆 [{row['teamName']}] {old_rank} → {new_rank}🎉")
 
     if rank_changes:
         print("\n".join(rank_changes))
