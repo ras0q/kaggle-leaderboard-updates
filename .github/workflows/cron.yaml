@@ -59,7 +59,8 @@ jobs:
           if [ -s rank_changes.txt ]; then
             ISSUE_NUMBER=$(gh issue list --state open --search "$ISSUE_TITLE" --limit 1 --json number --jq '.[0].number')
             if [ -z "$ISSUE_NUMBER" ]; then
-              ISSUE_NUMBER=$(gh issue create --title "$ISSUE_TITLE" --body "")
+              gh issue create --title "$ISSUE_TITLE" -F rank_changes.txt
+            else
+              gh issue comment $ISSUE_NUMBER -F rank_changes.txt
             fi
-            gh issue comment $ISSUE_NUMBER -F rank_changes.txt
           fi
