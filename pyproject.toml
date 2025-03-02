@@ -1,0 +1,10 @@
+[project]
+name = "kaggle-leaderboard-updates"
+version = "0.1.0"
+description = "Track and notify updates of Kaggle competition leaderboard"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "kaggle>=1.6.17",
+    "pandas>=2.2.3",
+]

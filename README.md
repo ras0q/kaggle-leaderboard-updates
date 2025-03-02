@@ -1,2 +1,3 @@
 # kaggle-leaderboard-updates
-Notify updates of Kaggle competition leaderboard
+
+Track and notify updates of Kaggle competition leaderboard
