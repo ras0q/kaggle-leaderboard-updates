@@ -1,6 +1,8 @@
 import sys
 import pandas as pd
 
+limit = 5
+
 old_file = sys.argv[1]
 new_file = sys.argv[2]
 
@@ -13,6 +15,9 @@ if not old_df.empty:
 
     rank_changes = []
     for team_id, row in new_df.iterrows():
+        if len(rank_changes) > limit:
+            break
+
         if team_id in old_df.index:
             old_rank = old_df.index.get_loc(team_id) + 1
             new_rank = new_df.index.get_loc(team_id) + 1
