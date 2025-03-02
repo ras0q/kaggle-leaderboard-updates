@@ -22,5 +22,4 @@ if not old_df.empty:
                 )
 
     if rank_changes:
-        with open("rank_changes.txt", "w") as f:
-            f.write("\n".join(rank_changes))
+        print("\n".join(rank_changes))
